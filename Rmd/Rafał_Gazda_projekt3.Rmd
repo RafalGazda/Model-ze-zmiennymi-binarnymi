@@ -1,6 +1,6 @@
 ---
 title: "Cwiczenia 3"
-author: "RafaÅ‚ Gazda"
+author: "RafaÄ¹â€š Gazda"
 date: "15 grudnia 2018"
 output:
   html_document:
@@ -25,7 +25,7 @@ library(dplyr)
 ```
 ## Zad 1
 
-Po wgraniu danych, które zawieraj¹ 100 obserwacji zostan¹ one podzielone na dwie czêœæi _train_ oraz _test_. Za pomoc¹ czêœæi _train_ zbudujemy model ekonometryczny, a za pomoc¹ próbki _test_ zostanie on przetestowany.
+Po wgraniu danych, ktÃ³re zawierajÄ… 100 obserwacji zostanÄ… one podzielone na dwie czÄ™Å›Ä‡i _train_ oraz _test_. Za pomocÄ… czÄ™Å›Ä‡i _train_ zbudujemy model ekonometryczny, a za pomocÄ… prÃ³bki _test_ zostanie on przetestowany.
 
 ```{r}
 MyData <- read.csv('C:/Users/Gazi/Desktop/Projekt3/DaneZ3.csv', header=TRUE, sep=";", dec=',')
@@ -37,31 +37,31 @@ test = MyData[sample,]
 ```
 
 ## Zad 2
-W projekcie zostanie dobrana odpowiednia postaæ modelu ekonometrycznego. Podczas budowy modelu trzeba zwórciæ uwagê na zmienn¹ _Z7_, która nie jest zmienn¹ numeryczn¹, dlatego te¿ zostanie ona zmieniona na zmienne zero-jedynkowe.
+W projekcie zostanie dobrana odpowiednia postaÄ‡ modelu ekonometrycznego. Podczas budowy modelu trzeba zwÃ³rciÄ‡ uwagÄ™ na zmiennÄ… _Z7_, ktÃ³ra nie jest zmiennÄ… numerycznÄ…, dlatego teÅ¼ zostanie ona zmieniona na zmienne zero-jedynkowe.
 
 ```{r}
 modelMNK <- lm(train)
 summary(modelMNK)
 ```
-W tej czêœci projektu zostanie sprawdzone, czy postaæ liniowa jest optymalna. Pos³u¿ do tego testem _serii Walda-Wolfowitza_.
+W tej czÄ™Å›ci projektu zostanie sprawdzone, czy postaÄ‡ liniowa jest optymalna. PosÅ‚uÅ¼ do tego testem _serii Walda-Wolfowitza_.
 
 ```{r}
 resi <- modelMNK$residuals
 runs.test(resi)
 ```
 
-Poniewa¿ _p-value_ jest du¿e nie mo¿emy odrzuciæ H0 dla poziomy istotnoœci 0.01. To oznacza, ¿e wed³ug testu serii liniowa postaæ modelu jest prawid³owa.
+PoniewaÅ¼ _p-value_ jest duÅ¼e nie moÅ¼emy odrzuciÄ‡ H0 dla poziomy istotnoÅ›ci 0.01. To oznacza, Å¼e wedÅ‚ug testu serii liniowa postaÄ‡ modelu jest prawidÅ‚owa.
 
-Nastêpnie mysimy sprawdziæ, które ze zmiennych powinny wchodziæ w sk³ad tego modelu. Do tego zastosujemy _metodê krokowo wsteczn¹_ i bêdziemy korzystaæ z testu t-studenta. Przed tym bêdziemy musieli sprawdziæ normalnoœæ reszt. Sprawdzimy to testem _Shapiro-Wilka_.
+NastÄ™pnie mysimy sprawdziÄ‡, ktÃ³re ze zmiennych powinny wchodziÄ‡ w skÅ‚ad tego modelu. Do tego zastosujemy _metodÄ™ krokowo wstecznÄ…_ i bÄ™dziemy korzystaÄ‡ z testu t-studenta. Przed tym bÄ™dziemy musieli sprawdziÄ‡ normalnoÅ›Ä‡ reszt. Sprawdzimy to testem _Shapiro-Wilka_.
 
 ```{r}
 shapiro.test(resi)
 ```
-Poniewa¿ p-value jest wiêksze od 0.01 nie mo¿emy odrzuciæ hipotezy zerowej, czyli mo¿emy skorzystaæ z test _t-studenta_.
+PoniewaÅ¼ p-value jest wiÄ™ksze od 0.01 nie moÅ¼emy odrzuciÄ‡ hipotezy zerowej, czyli moÅ¼emy skorzystaÄ‡ z test _t-studenta_.
 ```{r}
 summary(modelMNK)
 ```
-Zmienn¹ nieistotn¹ dla tego modelu jest zmienna _Z6_. Ta zmienna zostanie usuniêta, a nastêpnie zostanie sprawdzone, czy nie ma jeszcze jakiejœ zmiennej nieistotnej.
+ZmiennÄ… nieistotnÄ… dla tego modelu jest zmienna _Z6_. Ta zmienna zostanie usuniÄ™ta, a nastÄ™pnie zostanie sprawdzone, czy nie ma jeszcze jakiejÅ› zmiennej nieistotnej.
 
 ```{r}
 modelMNK2 <- lm(train[,-6])
@@ -69,9 +69,9 @@ summary(modelMNK2)
 resi2 <- modelMNK2$residuals
 shapiro.test(resi2)
 ```
-Reszta zmiennych w tym modelu jest istotna dla poziomu istotnoœci 0.05. 
+Reszta zmiennych w tym modelu jest istotna dla poziomu istotnoÅ›ci 0.05. 
 
-Nastêpnie zostanie stworzona ramka danych _trainFrame_, w której bêd¹ siê znajdowaæ zmienne wraz z podzmiennymi stworzonymi w ramach przekszta³cenia zmiennej _Z7_.
+NastÄ™pnie zostanie stworzona ramka danych _trainFrame_, w ktÃ³rej bÄ™dÄ… siÄ™ znajdowaÄ‡ zmienne wraz z podzmiennymi stworzonymi w ramach przeksztaÅ‚cenia zmiennej _Z7_.
 
 ```{r warning=FALSE}
 testFrame <- test[,c(-6)]
@@ -79,45 +79,45 @@ trainFrame <- train[,c(-6)]
 trainFrame <- trainFrame%>%mutate(const=rep(1,90))%>%spread(Z7,const,0)%>%select(-large)
 ```
 ## Zad 3
-Dla wybranej postaci mo¿emy wykonaæ pozosta³e testy. W tej czêœci sprawdzimy wspó³liniowoœæ zmiennych, korzystaj¹c ze statystyki _VIF_.
+Dla wybranej postaci moÅ¼emy wykonaÄ‡ pozostaÅ‚e testy. W tej czÄ™Å›ci sprawdzimy wspÃ³Å‚liniowoÅ›Ä‡ zmiennych, korzystajÄ…c ze statystyki _VIF_.
 
 ```{r}
 vif(modelMNK2)
 ```
-Poniewa¿ wartoœci statystki s¹ mniejsze od 10, wiêc w tym przypadku nie mo¿emy mówiæ o zjawisku wspó³liniowoœci zmiennych. Nastêpnie sprawdzimy koincydentnoœæ modelu.
+PoniewaÅ¼ wartoÅ›ci statystki sÄ… mniejsze od 10, wiÄ™c w tym przypadku nie moÅ¼emy mÃ³wiÄ‡ o zjawisku wspÃ³Å‚liniowoÅ›ci zmiennych. NastÄ™pnie sprawdzimy koincydentnoÅ›Ä‡ modelu.
 
-Nastêpnie zatosuje test _Chowa_ do sprawdzenia stabilnoœci modelu:
+NastÄ™pnie zatosuje test _Chowa_ do sprawdzenia stabilnoÅ›ci modelu:
 
 ```{r}
 sctest(Z1~Z2+Z3+Z4+medium+small, type="Chow",data=trainFrame)
 ```
-Poniewa¿ p_value jest wiêksze od 0.05 to nie ma podstaw do odrzucenia hipotezy H0, czyli model ma stabiln¹ postaæ.
-Nastêpnie zbadamy wystêpowanie zjawiska autokorelacjii wykorzystujÄ…c test _Durbina-Watsona_.
+PoniewaÅ¼ p_value jest wiÄ™ksze od 0.05 to nie ma podstaw do odrzucenia hipotezy H0, czyli model ma stabilnÄ… postaÄ‡.
+NastÄ™pnie zbadamy wystÄ™powanie zjawiska autokorelacjii wykorzystujÃ„â€¦c test _Durbina-Watsona_.
 ```{r}
 dwtest(modelMNK2)
 ```
-Poniewa¿ p_value jest wiêksze od 0.05, wiêc nie ma podstaw do odrzucenia H0, która mówi o braku zjawiska autokorealcji.
+PoniewaÅ¼ p_value jest wiÄ™ksze od 0.05, wiÄ™c nie ma podstaw do odrzucenia H0, ktÃ³ra mÃ³wi o braku zjawiska autokorealcji.
 
 ## Zad 4
-Wspó³czynnik determinacji R^2:
+WspÃ³Å‚czynnik determinacji R^2:
 ```{r}
 summary(modelMNK2)$r.squared
 ```
 
-Poniewa¿ wspó³czynnik determinacji wynosi oko³o 89%, model mo¿e pos³u¿yæ nam do predykcji.
+PoniewaÅ¼ wspÃ³Å‚czynnik determinacji wynosi okoÅ‚o 89%, model moÅ¼e posÅ‚uÅ¼yÄ‡ nam do predykcji.
 
 ## Zad 5
-Wykonanie predykcji punktowe i przedzia³owej na podstawie modelu z zadania 4.
+Wykonanie predykcji punktowe i przedziaÅ‚owej na podstawie modelu z zadania 4.
 
 ```{r}
 x_predict <- data.frame(-10.5,8,51.7,6,"large")
 names(x_predict) <-c('Z2','Z3','Z4','Z5','Z7')
 predict.lm(modelMNK2, x_predict, interval="confidence", level=0.95)
 ```
-Pierwsza wartoœæ jest predykcj¹ punktow¹, która wynosi 22,31. Natomiast predykcja przedzia³owa wynosi 11,88 i 31,08.
+Pierwsza wartoÅ›Ä‡ jest predykcjÄ… punktowÄ…, ktÃ³ra wynosi 22,31. Natomiast predykcja przedziaÅ‚owa wynosi 11,88 i 31,08.
 
 ## Zad 6
-Na tym etapie musi zostaæ wyznaczona prognoza _Ex Post_ dla ca³ego podzbioru testowego oraz dla ka¿dej obserwacji:
+Na tym etapie musi zostaÄ‡ wyznaczona prognoza _Ex Post_ dla caÅ‚ego podzbioru testowego oraz dla kaÅ¼dej obserwacji:
 
 ```{r}
 predictions <- predict.lm(modelMNK2, testFrame)
@@ -127,23 +127,23 @@ ex_post
 ```
 
 ## Zad 7
-Kolejnym korkiem jest wyliczenie b³êdu predykcji _Ex Post_ do wyliczenia œredniego b³êdu predykcji _Ex Post_.
+Kolejnym korkiem jest wyliczenie bÅ‚Ä™du predykcji _Ex Post_ do wyliczenia Å›redniego bÅ‚Ä™du predykcji _Ex Post_.
 
 ```{r}
 mean(ex_post)
 ```
 
-Stosowanie tego b³êdu jest niewskazane, kiedy mamy doczynienia ze statystyk¹ b³êdu o ujemnym znaku, poniewa¿ zmniejsza on wartoœci o dodatnim znaku.
+Stosowanie tego bÅ‚Ä™du jest niewskazane, kiedy mamy doczynienia ze statystykÄ… bÅ‚Ä™du o ujemnym znaku, poniewaÅ¼ zmniejsza on wartoÅ›ci o dodatnim znaku.
 
 ## Zad 8
-Aby pozbyæ siê b³êdu z zadania 7 skorzystamy z wyliczenia œredniej z wartoœci bezwzglêdnej b³êdu predykcji.
+Aby pozbyÄ‡ siÄ™ bÅ‚Ä™du z zadania 7 skorzystamy z wyliczenia Å›redniej z wartoÅ›ci bezwzglÄ™dnej bÅ‚Ä™du predykcji.
 
 ```{r}
 mean(abs(ex_post))
 ```
 
 ## Zad 9 
-Nastêpnie zastosujemy œredniokwadratowy b³¹d predykcji:
+NastÄ™pnie zastosujemy Å›redniokwadratowy bÅ‚Ä…d predykcji:
 
 ```{r}
 MSE <- mean(ex_post^2)
@@ -152,11 +152,11 @@ MSE
 RMSE
 ```
 
-Statystyka _RMSE_ jest du¿o bardziej podatna na du¿e wartoœæi ni¿ statystyka z zadania 8.
+Statystyka _RMSE_ jest duÅ¼o bardziej podatna na duÅ¼e wartoÅ›Ä‡i niÅ¼ statystyka z zadania 8.
 
 ## Zad 10
 
 ```{r}
 mean(abs(ex_post/testFrame$Z1))
 ```
-B³¹d jest napradê du¿y, a jego wartoœæ wynosi 140%, co oznacza, ¿e model nie spe³nia za³o¿eñ o dok³adnoœci predykcji (za³o¿enie: granica 5%).
+BÅ‚Ä…d jest napradÄ™ duÅ¼y, a jego wartoÅ›Ä‡ wynosi 140%, co oznacza, Å¼e model nie speÅ‚nia zaÅ‚oÅ¼eÅ„ o dokÅ‚adnoÅ›ci predykcji (zaÅ‚oÅ¼enie: granica 5%).
